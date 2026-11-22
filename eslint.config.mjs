@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // The Diorama engine is copied from the diorama-maker skill and is not edited here.
+    "public/guide/engine/**",
   ]),
 ]);
 

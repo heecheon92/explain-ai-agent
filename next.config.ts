@@ -1,19 +1,16 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
   experimental: {
     agentFeedback: true,
   },
   cacheComponents: true,
   partialPrefetching: true,
-  turbopack: {
-    rules: {
-      "*.css": {
-        loaders: ["@tailwindcss/turbopack"],
-        as: "*.css",
-      },
-    },
+  // The guide is served at `/guide/` so the Diorama engine's relative file paths
+  // (`walkthroughs/<id>.js`) resolve inside `public/guide/`.
+  trailingSlash: true,
+  redirects() {
+    return [{ source: "/", destination: "/guide/", permanent: false }];
   },
 };
 

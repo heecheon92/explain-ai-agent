@@ -1,36 +1,33 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# explain-ai-agent
 
-## Getting Started
+기술 배경이 없는 사람에게 LLM, 하네스, AI 에이전트가 무엇이고 어떻게 다른지 설명하는 안내서입니다.
+Codex, Claude Code, omp가 그중 어디에 해당하는지도 다룹니다.
 
-First, run the development server:
+## 실행
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+`http://localhost:3000/` 을 열면 안내서(`/guide/`)로 이동합니다.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 구조
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| 경로 | 내용 |
+|---|---|
+| `app/guide/` | 안내서 페이지. `diorama-shell.tsx`가 Diorama 엔진을 React 클라이언트 컴포넌트 안에서 띄웁니다 |
+| `public/guide/` | Diorama 컬렉션: 목차(`collection.js`), 워크스루(`walkthroughs/`), 리뷰(`reviews/`), 출처(`sources/`), 엔진(`engine/`) |
+| `public/guide/AGENTS.md` | 컬렉션의 독자, 예시 세계, 설명 방식, 작업 규칙 |
 
-## Learn More
+안내서의 그림과 단계 이동은 Diorama 엔진(순수 JavaScript)이 그립니다. Next.js는 페이지를 제공하고
+엔진을 불러옵니다. `public/guide/index.html`을 브라우저로 직접 열어도 같은 안내서가 열립니다.
 
-To learn more about Next.js, take a look at the following resources:
+엔진은 `walkthroughs/<id>.js`를 페이지 주소 기준으로 찾습니다. 그래서 안내서는 `/guide/`에 있어야
+하고, `next.config.ts`의 `trailingSlash: true`가 이를 보장합니다.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 내용 고치기
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+워크스루는 `public/guide/walkthroughs/<id>.js` 한 파일이 하나입니다. 고친 뒤에는
+`http://localhost:3000/guide/#/<id>/sheet` 에서 자동 점검 결과와 모든 단계의 그림을 확인합니다.
+`public/guide/index.html`과 `public/guide/engine/`은 고치지 않습니다.
