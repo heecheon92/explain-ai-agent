@@ -70,7 +70,7 @@ Diorama.collection({
           "id": "permission",
           "title": "허락은 누가 받나",
           "summary": "에이전트가 파일을 지우려는 순간을 따라가며, 누가 멈춰 세우고 누구에게 묻는지 봐요.",
-          "status": "drafted",
+          "status": "awaiting-approval",
           "minutes": 9,
           "level": "beginner"
         },
@@ -78,7 +78,7 @@ Diorama.collection({
           "id": "harnesses",
           "title": "같은 두뇌, 다른 작업실",
           "summary": "ChatGPT의 Codex, Claude Code, omp가 무엇이 같고 다른지, 도구 하나만 바꾼 실험으로 알아봐요.",
-          "status": "drafted",
+          "status": "awaiting-approval",
           "minutes": 9,
           "level": "beginner"
         }

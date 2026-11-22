@@ -1,7 +1,7 @@
 Diorama.walkthrough({
   "id": "harnesses",
   "title": "같은 두뇌, 다른 작업실",
-  "question": "모델이 같아도, 하네스가 다르면 결과가 달라질까요?",
+  "question": "모델이 같아도, 하네스가 다르면 결과가 얼마나 달라질까요?",
   "summary": "ChatGPT의 Codex, Claude Code, omp가 무엇이 같고 다른지, 도구 하나만 바꾼 실험으로 알아봐요.",
   "minutes": 9,
   "level": "beginner",
@@ -16,7 +16,9 @@ Diorama.walkthrough({
     { "claim": "omp는 Anthropic과 OpenAI의 모델을 모두 연결할 수 있다.", "kind": "data", "source": "omp 문서, ‘Providers’, ‘Current provider matrix’", "url": "https://omp.sh/docs/providers" },
     { "claim": "모델 Grok Code Fast 1의 성공률은 고치는 도구만 바꾸자 6.7%에서 68.3%가 됐다.", "kind": "data", "source": "Can Bölük, ‘The harness problem’ (2026-02-12). 글쓴이는 omp를 만든 사람이에요.", "url": "https://stencil.so/blog/the-harness-problem" },
     { "claim": "실험은 코드 파일의 작은 오류를 고치는 문제 180개를 3번씩 풀게 한 것이다.", "kind": "data", "source": "Can Bölük, ‘The harness problem’, ‘The Benchmark’ 절", "url": "https://stencil.so/blog/the-harness-problem" },
-    { "claim": "도구 A(patch)는 정해진 양식의 글 뭉치로 바꿀 곳을 적는 방식이고 Codex가 쓴다. 도구 B(hashline)는 줄마다 붙은 짧은 꼬리표를 가리키는 방식이다.", "kind": "data", "source": "Can Bölük, ‘The harness problem’, ‘Edit Tool!’과 ‘Hashline!’ 절", "url": "https://stencil.so/blog/the-harness-problem" },
+    { "claim": "도구 A(patch)는 정해진 양식의 글 뭉치로 바꿀 곳을 적는 방식이고, Codex가 쓴다.", "kind": "data", "source": "Can Bölük, ‘The harness problem’, ‘Edit Tool!’ 절", "url": "https://stencil.so/blog/the-harness-problem" },
+    { "claim": "Claude Code는 원래 글을 그대로 찾아 새 글로 바꾸는 방식(str_replace)을 쓴다.", "kind": "data", "source": "Can Bölük, ‘The harness problem’, ‘Edit Tool!’ 절", "url": "https://stencil.so/blog/the-harness-problem" },
+    { "claim": "도구 B(hashline)는 줄마다 붙은 짧은 꼬리표를 가리키고, 꼬리표가 맞지 않으면 거절한다.", "kind": "data", "source": "Can Bölük, ‘The harness problem’, ‘Hashline!’ 절", "url": "https://stencil.so/blog/the-harness-problem" },
     { "claim": "같은 실험에서 모델 16개 가운데 14개가 도구 B에서 더 잘했고, 약한 모델일수록 차이가 컸다.", "kind": "data", "source": "Can Bölük, ‘The harness problem’ (글쓴이의 측정)", "url": "https://stencil.so/blog/the-harness-problem" },
     { "claim": "모델은 무엇을 고칠지는 알았지만 도구의 양식으로 적어 내는 데서 자주 틀렸다.", "kind": "assumption", "source": "실험을 한 사람의 풀이예요(‘So What?’ 절). 따로 확인된 사실은 아니에요." },
     { "claim": "성공률 6.7%와 68.3%를 ‘100번 시도에 6.7번, 68.3번’으로 바꿔 적는다.", "kind": "assumption", "source": "읽기 쉽게 바꾼 표현이에요. 실제 시도는 180 × 3 = 540번이에요." }
@@ -46,8 +48,8 @@ Diorama.walkthrough({
     "omp": { "type": "block", "x": 10, "y": 0, "color": "blue", "glyph": "gear", "label": "omp", "sub": "하네스 · 오픈소스" }
   },
   "links": {
-    "l1": { "from": "codex", "to": "gpt", "label": "한 짝" },
-    "l2": { "from": "cc", "to": "claude", "label": "한 짝" },
+    "l1": { "from": "codex", "to": "gpt", "label": "함께" },
+    "l2": { "from": "cc", "to": "claude", "label": "함께" },
     "l3": { "from": "omp", "to": "grok", "label": "같은 모델, 같은 문제" }
   },
   "steps": [
@@ -56,7 +58,7 @@ Diorama.walkthrough({
       "chapter": "setup",
       "title": "친구들은 저마다 다른 걸 써요",
       "body": [
-        "지민이 물어보니 한 친구는 ChatGPT의 Codex를, 다른 친구는 Claude Code를 쓴대요. 이름이 다르면 무엇이 다를까요? 먼저 두뇌부터 놓아 봐요.",
+        "지민의 영수증은 LLM의 쪽지를 하네스가 실행해서 정리됐어요. 그런데 한 친구는 ChatGPT의 Codex를, 다른 친구는 Claude Code를 쓴대요. 쪽지를 받아 실행하는 쪽이 다르면 결과도 달라질까요? 먼저 두뇌부터 놓아 봐요.",
         "GPT는 ChatGPT에서 답을 쓰는 LLM이에요. Claude는 Anthropic이라는 회사가 만든, GPT와 같은 종류의 LLM이에요. 둘 다 글을 받아 글을 써요."
       ],
       "callout": { "kind": "tip", "text": "이 편의 숫자 칸은 뒤에 나오는 실험에서 채워져요. 100번 시도하면 몇 번 성공하는지를 세요." },
@@ -74,7 +76,7 @@ Diorama.walkthrough({
       "chapter": "technique",
       "title": "Codex는 GPT 둘레의 하네스예요",
       "body": [
-        "ChatGPT를 만든 OpenAI는 GPT 둘레에 하네스도 만들었어요. 이름이 Codex예요. ChatGPT 앱에서 Codex를 고르면, GPT가 쪽지를 쓰고 Codex가 노트북에서 실행해요.",
+        "ChatGPT를 만든 OpenAI는 GPT 둘레에 하네스도 만들었어요. 이름이 Codex예요. ChatGPT 데스크톱 앱에서 Codex로 내 컴퓨터의 폴더를 열어 일을 맡기면, GPT가 쪽지를 쓰고 Codex가 실행해요.",
         "그러니까 ChatGPT 안에는 이름이 여럿 있어요. 답을 쓰는 LLM은 GPT, 그 쪽지를 실행하는 하네스는 Codex예요."
       ],
       "changes": ["+ Codex: ChatGPT 안의 하네스", "+ Codex → GPT: 함께 일하는 사이"],
@@ -93,9 +95,9 @@ Diorama.walkthrough({
       "title": "Claude Code는 Codex와 같은 종류예요",
       "body": [
         "Anthropic도 자기 LLM인 Claude 둘레에 하네스를 만들었어요. 이름이 Claude Code예요. 이름은 낯설어도, ChatGPT의 Codex와 같은 종류의 프로그램이에요.",
-        "둘 다 앞에서 본 세 가지를 해요. LLM에게 도구 목록을 주고, 쪽지를 실행하며 왕복을 되풀이하고, 위험한 일 앞에서는 멈춰서 사람에게 물어요."
+        "둘 다 앞에서 본 세 가지를 해요. LLM에게 도구 목록을 주고, 쪽지를 실행하며 왕복을 되풀이하고, 허락 설정에 따라 물어보기로 한 일은 실행하기 전에 사람에게 물어요."
       ],
-      "callout": { "kind": "insight", "text": "GPT와 Claude가 짝이고, Codex와 Claude Code가 짝이에요. 앞의 둘은 LLM, 뒤의 둘은 하네스예요." },
+      "callout": { "kind": "insight", "text": "GPT와 Claude는 같은 종류, LLM이에요. Codex와 Claude Code도 같은 종류, 하네스예요." },
       "changes": ["+ Claude Code: Claude 둘레의 하네스", "~ 두 하네스의 꼬리표: 도구, 되풀이, 허락"],
       "metrics": { "ok": null, "fail": null, "tries": null },
       "scene": {
@@ -114,8 +116,8 @@ Diorama.walkthrough({
       "chapter": "technique",
       "title": "omp는 모델을 골라 끼워요",
       "body": [
-        "세 번째 하네스 omp는 AI 회사가 아니라, 누구나 속을 들여다볼 수 있게 공개된 프로그램이에요. 이런 프로그램을 오픈소스라고 해요.",
-        "omp는 어느 한 모델에 묶여 있지 않아요. GPT도 Claude도, 그 밖의 여러 모델도 골라서 연결할 수 있어요. 그래서 모델 하나를 놓고 하네스 쪽만 바꿔 보는 실험을 하기 좋아요."
+        "세 번째 하네스 omp는 Stencil Labs라는 곳에서 만들어요. 누구나 속을 보고, 정해진 조건에 따라 고쳐 쓸 수 있게 공개한 프로그램이에요. 이런 프로그램을 오픈소스라고 해요.",
+        "omp는 어느 한 회사의 모델에 묶여 있지 않아요. OpenAI의 GPT도 Anthropic의 Claude도, 그 밖의 여러 회사 모델도 연결할 수 있어요. 그래서 모델 하나를 놓고 하네스 쪽만 바꿔 보는 실험을 하기 좋아요."
       ],
       "changes": ["+ omp: 오픈소스 하네스", "+ 실험용 모델"],
       "metrics": { "ok": null, "fail": null, "tries": null },
@@ -137,9 +139,9 @@ Diorama.walkthrough({
       "title": "모델이 같으면 결과도 같을까요",
       "body": [
         "사람들은 흔히 어느 모델이 더 똑똑한지만 물어요. 하네스는 그저 껍데기일까요? omp를 만든 사람이 실험을 했어요. 모델은 하나로 고정하고, 하네스의 도구 하나만 바꿨어요.",
-        "문제는 프로그램 코드 파일에 숨은 작은 오류 고치기 180개, 문제마다 3번씩이에요. 바꾼 도구는 파일을 고칠 때 쓰는 <b>고치는 도구</b>예요."
+        "문제는 영수증이 아니라 코드, 곧 프로그램이 할 일을 적어 둔 글이에요. 코드 파일에 숨은 작은 오류 고치기 180개를 3번씩 풀게 하고, 파일이 제대로 고쳐졌는지 검사했어요. 바꾼 것은 파일을 고칠 때 쓰는 <b>고치는 도구</b>예요."
       ],
-      "changes": ["+ omp → 실험용 모델: 같은 모델, 같은 문제", "~ 다른 두 짝은 흐리게"],
+      "changes": ["+ omp → 실험용 모델: 같은 모델, 같은 문제", "~ omp: 문제 180개 × 3번", "~ 다른 두 짝은 흐리게"],
       "metrics": { "ok": null, "fail": null, "tries": null },
       "scene": {
         "show": ["gpt", "claude", "grok", "codex", "cc", "omp"],
@@ -160,10 +162,10 @@ Diorama.walkthrough({
       "chapter": "technique",
       "title": "도구 A: 100번에 7번쯤 성공해요",
       "body": [
-        "도구 A는 바꿀 곳과 바꿀 내용을 까다로운 양식에 꼭 맞춰 적어 내야 하는 도구예요. 양식이 조금만 어긋나도 하네스는 실행하지 못해요.",
-        "이 도구로는 성공률이 6.7%였어요. 100번 시도하면 <b>6.7번</b> 성공하고 93.3번 실패한 셈이에요. 붉게 터지는 점이 실패예요."
+        "도구 A는 바꿀 곳과 바꿀 내용을 까다로운 양식에 꼭 맞춰 적어 내야 하는 도구예요. Codex가 쓰는 방식이에요. Claude Code는 또 달라서, 원래 글을 그대로 찾아 새 글로 바꾸는 방식을 써요.",
+        "실험용 모델은 도구 A로 6.7%만 성공했어요. 100번 기준으로 바꿔 보면 <b>6.7번</b> 성공, 93.3번 실패예요. 이것은 이 모델의 숫자이지, Codex의 성적이 아니에요."
       ],
-      "changes": ["~ omp: 고치는 도구 A", "~ 실험용 모델: 성공 6.7%", "~ 성공 6.7번, 실패 93.3번"],
+      "changes": ["~ omp: 고치는 도구 A, 파일 고치기 성공 6.7%", "~ 성공 6.7번, 실패 93.3번 (100번 기준)"],
       "metrics": { "ok": 6.7, "fail": 93.3, "tries": 100 },
       "scene": {
         "show": ["gpt", "claude", "grok", "codex", "cc", "omp"],
@@ -172,11 +174,11 @@ Diorama.walkthrough({
           "claude": { "dim": true },
           "codex": { "dim": true },
           "cc": { "dim": true },
-          "omp": { "tags": [{ "text": "고치는 도구 A", "tone": "amber" }] },
-          "grok": { "heat": 0.5, "tags": [{ "text": "성공 6.7%", "tone": "red" }] }
+          "omp": { "heat": 0.4, "tags": [{ "text": "파일 고치기 성공 6.7%", "tone": "red" }, { "text": "고치는 도구 A", "tone": "amber" }] },
+          "grok": { "tags": [{ "text": "같은 모델", "tone": "paper" }] }
         },
         "links": { "l1": { "style": "off", "label": "" }, "l2": { "style": "off", "label": "" }, "l3": {} },
-        "flows": [{ "route": ["~l3"], "kind": "response", "rate": 1.2, "fail": 0.93 }],
+        "flows": [{ "route": ["l3"], "kind": "request", "bounce": true, "rate": 0.8 }],
         "panel": null
       }
     },
@@ -185,10 +187,10 @@ Diorama.walkthrough({
       "chapter": "solution",
       "title": "도구만 B로 바꾸니 68번쯤 성공해요",
       "body": [
-        "도구 B는 파일의 줄마다 짧은 꼬리표를 붙여 보여 주고, 모델이 그 꼬리표를 가리켜 “이 줄을 바꿔 줘” 하면 되는 도구예요.",
-        "모델도 문제도 그대로인데 성공률이 68.3%가 됐어요. 100번에 <b>68.3번</b> 성공, 31.7번 실패예요. 달라진 것은 하네스의 도구 하나예요."
+        "도구 B는 파일을 보여 줄 때 줄마다 짧은 꼬리표를 붙이고, 모델이 그 꼬리표를 가리켜 “이 줄을 바꿔 줘” 하면 되는 도구예요. 그 사이 파일이 바뀌어 꼬리표가 맞지 않으면 고치기를 거절해요.",
+        "모델도 문제도 그대로인데 성공률이 68.3%가 됐어요. 100번 기준으로 <b>68.3번</b> 성공, 31.7번 실패예요. 달라진 것은 하네스의 도구 하나예요."
       ],
-      "changes": ["~ omp: 고치는 도구 A → B", "~ 실험용 모델: 성공 6.7 → 68.3%", "~ 성공 68.3번, 실패 31.7번"],
+      "changes": ["~ omp: 고치는 도구 A → B", "~ 파일 고치기 성공 6.7 → 68.3%", "~ 성공 68.3번, 실패 31.7번 (100번 기준)"],
       "metrics": { "ok": 68.3, "fail": 31.7, "tries": 100 },
       "scene": {
         "show": ["gpt", "claude", "grok", "codex", "cc", "omp"],
@@ -197,11 +199,11 @@ Diorama.walkthrough({
           "claude": { "dim": true },
           "codex": { "dim": true },
           "cc": { "dim": true },
-          "omp": { "tags": [{ "text": "고치는 도구 B", "tone": "green" }] },
-          "grok": { "tags": [{ "text": "성공 68.3%", "tone": "green" }] }
+          "omp": { "tags": [{ "text": "파일 고치기 성공 68.3%", "tone": "green" }, { "text": "고치는 도구 B", "tone": "green" }] },
+          "grok": { "tags": [{ "text": "같은 모델", "tone": "paper" }] }
         },
         "links": { "l1": { "style": "off", "label": "" }, "l2": { "style": "off", "label": "" }, "l3": {} },
-        "flows": [{ "route": ["~l3"], "kind": "response", "rate": 1.2, "fail": 0.32 }],
+        "flows": [{ "route": ["l3"], "kind": "request", "bounce": true, "rate": 0.8 }],
         "panel": null
       }
     },
