@@ -53,7 +53,14 @@ Keep these fixed across walkthroughs:
 
 <!-- One line per correction from the owner that will apply again. Newest last. -->
 
-(none yet)
+- The owner reviews all walkthroughs at once, not one at a time: write, review and resolve
+  each one, set it `awaiting-approval`, and go on to the next without waiting. (2026-11-22)
+- Commit and push to `origin/main` each time one walkthrough is done (written, independently
+  reviewed, findings resolved). (2026-11-22)
+- Readers know ChatGPT; Claude Code is much less known. Explain with both ChatGPT's Codex
+  and Claude Code, ChatGPT side first, and say plainly that Claude Code is the same kind of
+  thing as Codex (and Claude the same kind of thing as ChatGPT/GPT). Wherever a walkthrough
+  introduces a part or a mechanism, name it in both products. (2026-11-22)
 
 ## Where things are
 

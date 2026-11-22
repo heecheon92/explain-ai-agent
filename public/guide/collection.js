@@ -48,13 +48,17 @@ Diorama.collection({
           "id": "harness",
           "title": "LLM에게 손을 달다",
           "summary": "LLM이 쓴 쪽지 한 장이 노트북에서 실제 행동이 되기까지, 하네스가 하는 일을 따라가요.",
-          "status": "planned"
+          "status": "awaiting-approval",
+          "minutes": 8,
+          "level": "beginner"
         },
         {
           "id": "agent",
           "title": "끝날 때까지 되풀이",
-          "summary": "부탁 한 번이 여러 번의 왕복으로 끝나는 과정을 따라가며, 에이전트가 무엇의 이름인지 알아봐요.",
-          "status": "planned"
+          "summary": "부탁 한 번 뒤에 쪽지와 결과가 오가는 횟수를 세어 보고, 이렇게 일하는 둘에 붙는 이름을 알아봐요.",
+          "status": "awaiting-approval",
+          "minutes": 9,
+          "level": "beginner"
         }
       ]
     },
@@ -66,13 +70,17 @@ Diorama.collection({
           "id": "permission",
           "title": "허락은 누가 받나",
           "summary": "에이전트가 파일을 지우려는 순간을 따라가며, 누가 멈춰 세우고 누구에게 묻는지 봐요.",
-          "status": "planned"
+          "status": "drafted",
+          "minutes": 9,
+          "level": "beginner"
         },
         {
           "id": "harnesses",
           "title": "같은 두뇌, 다른 작업실",
-          "summary": "Codex, Claude Code, omp가 무엇이 같고 다른지, 도구 하나만 바꾼 실험으로 알아봐요.",
-          "status": "planned"
+          "summary": "ChatGPT의 Codex, Claude Code, omp가 무엇이 같고 다른지, 도구 하나만 바꾼 실험으로 알아봐요.",
+          "status": "drafted",
+          "minutes": 9,
+          "level": "beginner"
         }
       ]
     }

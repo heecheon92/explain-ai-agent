@@ -12,7 +12,7 @@ Diorama.walkthrough({
     { "claim": "모델의 답은 한 번에 나오지 않고 작은 조각(토큰) 단위로 차례차례 만들어진다.", "kind": "data", "source": "OpenAI, ‘Unrolling the Codex agent loop’, ‘The agent loop’ 절", "url": "https://openai.com/index/unrolling-the-codex-agent-loop/" },
     { "claim": "Claude Code에서 도구가 없으면 Claude는 글로만 응답할 수 있다.", "kind": "data", "source": "Claude Code 문서, ‘How Claude Code works’, ‘Tools’ 절", "url": "https://code.claude.com/docs/en/how-claude-code-works" },
     { "claim": "Claude는 Anthropic이 만든 LLM 계열의 이름이고, 지금 모델들은 글로 답한다.", "kind": "data", "source": "Anthropic, ‘Models overview’ 첫 문장과 ‘Latest models’ 절", "url": "https://platform.claude.com/docs/en/models/overview" },
-    { "claim": "Codex가 쓰는 LLM은 OpenAI의 GPT 계열 모델이다.", "kind": "data", "source": "OpenAI, ‘Unrolling the Codex agent loop’ 머리말과 ‘Model inference’ 절", "url": "https://openai.com/index/unrolling-the-codex-agent-loop/" },
+    { "claim": "ChatGPT에서 답을 쓰는 것은 OpenAI의 GPT 모델이다.", "kind": "data", "source": "OpenAI 도움말, ‘ChatGPT Work and Codex’, ‘Models in Work and Codex’ 절", "url": "https://help.openai.com/en/articles/20001275-chatgpt-work-and-codex" },
     { "claim": "지민의 채팅 앱은 글을 AI 회사 컴퓨터의 LLM으로 보내고 답을 보여 주는 일만 한다.", "kind": "assumption", "source": "지어낸 앱이에요. 노트북 안에서 모델을 돌리는 앱도, 파일을 다루는 기능이 붙은 앱도 실제로 있어요." },
     { "claim": "영수증 파일은 12개다: 3월 5개, 4월 4개, 5월 3개.", "kind": "assumption", "source": "이 안내서를 위해 지어낸 예시예요." },
     { "claim": "파일 이름에는 0312_화분.jpg처럼 날짜가 들어 있다.", "kind": "assumption", "source": "이 안내서를 위해 지어낸 예시예요." },
@@ -94,7 +94,7 @@ Diorama.walkthrough({
       "title": "글은 앱 밖의 LLM에게 가요",
       "body": [
         "채팅 앱은 답을 직접 만들지 않아요. 지민이 쓰는 이 앱은 글을 AI 회사의 컴퓨터로 보내요. 거기에 글을 받아 글을 쓰는 프로그램, <span class=\"term\">LLM</span>(큰 언어 모델)이 있어요.",
-        "Claude와 GPT가 이런 모델들의 이름이에요. 줄여서 <b>모델</b>이라고도 불러요. 화면에 보이는 앱은 창구이고, 답을 쓰는 것은 모델이에요."
+        "ChatGPT에서 답을 쓰는 LLM의 이름이 GPT예요. Claude는 Anthropic이라는 회사가 만든, ChatGPT와 비슷한 AI이자 그 LLM의 이름이에요. LLM은 줄여서 <b>모델</b>이라고도 불러요."
       ],
       "callout": { "kind": "insight", "text": "화면에 보이는 앱과 답을 쓰는 LLM은 서로 다른 프로그램이에요." },
       "changes": ["+ LLM: 노트북 밖, AI 회사의 컴퓨터", "+ 앱 → LLM: 지민의 글"],
@@ -289,7 +289,7 @@ Diorama.walkthrough({
       "title": "LLM은 글을 쓰는 두뇌예요",
       "body": [
         "정리된 파일 12개 가운데 AI가 옮긴 것은 <b>0개</b>였어요. LLM은 나눠 담을 목록까지 써 줬지만, 파일은 지민이 12번에 걸쳐 직접 옮겼어요.",
-        "<ul class=\"takeaways\"><li><b>LLM</b>은 글을 받아 다음 말을 이어 쓰는 프로그램이에요. Claude와 GPT가 이런 모델들의 이름이에요.</li><li>LLM이 내놓는 것은 <b>답</b>이에요. 행동이 아니에요.</li><li>폴더에 실제로 무엇이 있는지는, <b>누가 알려 주지 않으면</b> LLM이 확인할 수 없어요.</li><li>답이 실제 일이 되려면, 대신 보고 대신 옮겨 줄 <b>사람이나 프로그램</b>이 LLM 밖에 있어야 해요.</li></ul>"
+        "<ul class=\"takeaways\"><li><b>LLM</b>은 글을 받아 다음 말을 이어 쓰는 프로그램이에요. ChatGPT 안의 GPT, 그리고 ChatGPT와 비슷한 Claude가 LLM이에요.</li><li>LLM이 내놓는 것은 <b>답</b>이에요. 행동이 아니에요.</li><li>폴더에 실제로 무엇이 있는지는, <b>누가 알려 주지 않으면</b> LLM이 확인할 수 없어요.</li><li>답이 실제 일이 되려면, 대신 보고 대신 옮겨 줄 <b>사람이나 프로그램</b>이 LLM 밖에 있어야 해요.</li></ul>"
       ],
       "callout": { "kind": "next", "text": "<b>LLM에게 손을 달다</b>: 지민 대신 폴더를 열어 보고 사진을 옮겨 주는 프로그램, 하네스를 만나요." },
       "metrics": { "llm": 0, "hand": 12, "done": 12 },

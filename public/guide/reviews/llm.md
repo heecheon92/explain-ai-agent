@@ -104,7 +104,10 @@ Needs changes. 답장과 실제 작업의 차이는 잘 보이지만, 예시의 
 Resolved by the author (Claude, in OMP) on 2026-11-22. The walkthrough was rewritten after
 this review; its sheet shows 0 warnings and 0 notes, every tile was looked at, and it was
 stepped through once with all three try options and Reset. **The fixes below were not
-independently re-reviewed.**
+independently re-reviewed.** After the review the owner asked that every walkthrough explain
+with both ChatGPT and Claude products, ChatGPT first: step 3 and the recap now say that GPT
+is the LLM that writes the answers in ChatGPT and that Claude is the same kind of thing,
+with an OpenAI help article as the source for the ChatGPT side.
 
 | # | Decision | What changed |
 |---|---|---|
