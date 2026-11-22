@@ -100,3 +100,5 @@ Resolved by the author (Claude, in OMP) on 2026-11-22. Sheet after the changes: 
 **Still unverified.** Live prompts in current product versions; pacing for real lay readers.
 
 ## Owner decision
+
+Approved by the owner (heecheonpark) on 2026-11-22, together with the other four walkthroughs: "good. they are approved". Status set to `approved` on that word.

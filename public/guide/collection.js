@@ -40,7 +40,7 @@ Diorama.collection({
           "id": "llm",
           "title": "글만 쓰는 기계, LLM",
           "summary": "지민의 부탁 한 줄을 따라가며, 좋은 답을 받고도 파일이 그대로인 이유를 알아봐요.",
-          "status": "awaiting-approval",
+          "status": "approved",
           "minutes": 8,
           "level": "beginner"
         },
@@ -48,7 +48,7 @@ Diorama.collection({
           "id": "harness",
           "title": "LLM에게 손을 달다",
           "summary": "LLM이 쓴 쪽지 한 장이 노트북에서 실제 행동이 되기까지, 하네스가 하는 일을 따라가요.",
-          "status": "awaiting-approval",
+          "status": "approved",
           "minutes": 8,
           "level": "beginner"
         },
@@ -56,7 +56,7 @@ Diorama.collection({
           "id": "agent",
           "title": "끝날 때까지 되풀이",
           "summary": "부탁 한 번 뒤에 쪽지와 결과가 오가는 횟수를 세어 보고, 이렇게 일하는 둘에 붙는 이름을 알아봐요.",
-          "status": "awaiting-approval",
+          "status": "approved",
           "minutes": 9,
           "level": "beginner"
         }
@@ -70,7 +70,7 @@ Diorama.collection({
           "id": "permission",
           "title": "허락은 누가 받나",
           "summary": "에이전트가 파일을 지우려는 순간을 따라가며, 누가 멈춰 세우고 누구에게 묻는지 봐요.",
-          "status": "awaiting-approval",
+          "status": "approved",
           "minutes": 9,
           "level": "beginner"
         },
@@ -78,7 +78,7 @@ Diorama.collection({
           "id": "harnesses",
           "title": "같은 두뇌, 다른 작업실",
           "summary": "ChatGPT의 Codex, Claude Code, omp가 무엇이 같고 다른지, 도구 하나만 바꾼 실험으로 알아봐요.",
-          "status": "awaiting-approval",
+          "status": "approved",
           "minutes": 9,
           "level": "beginner"
         }

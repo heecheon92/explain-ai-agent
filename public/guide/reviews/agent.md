@@ -104,3 +104,5 @@ both ChatGPT's Codex and Claude Code; steps 6, 9 and the recap now name both.
 as the example shows.
 
 ## Owner decision
+
+Approved by the owner (heecheonpark) on 2026-11-22, together with the other four walkthroughs: "good. they are approved". Status set to `approved` on that word.

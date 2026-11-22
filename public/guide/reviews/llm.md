@@ -139,6 +139,8 @@ saw while the counter animates into step 9 (engine behaviour, not investigated).
 
 ## Owner decision
 
+Approved by the owner (heecheonpark) on 2026-11-22, together with the other four walkthroughs: "good. they are approved". Status set to `approved` on that word.
+
 [ledger]: ../sources/ledger.md
 [glossary]: https://platform.claude.com/docs/en/about-claude/glossary
 [loop]: https://openai.com/index/unrolling-the-codex-agent-loop/
