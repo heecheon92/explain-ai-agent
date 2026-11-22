@@ -10,23 +10,26 @@ Diorama.walkthrough({
     { "claim": "Codex에는 언제 멈춰서 사람에게 물어야 하는지를 정하는 승인 설정이 있다.", "kind": "data", "source": "Codex 문서, ‘Agent approvals & security’, ‘Sandbox and approvals’ 절", "url": "https://learn.chatgpt.com/docs/agent-approvals-security" },
     { "claim": "Codex에는 승인 설정과 별도로, 건드릴 수 있는 범위를 막아 두는 샌드박스가 있다.", "kind": "data", "source": "Codex 문서, ‘Agent approvals & security’, ‘Sandbox and approvals’ 절", "url": "https://learn.chatgpt.com/docs/agent-approvals-security" },
     { "claim": "Claude Code의 Manual 방식은 파일을 고치거나 명령을 실행하는 대부분의 행동 전에 멈춰서 묻는다.", "kind": "data", "source": "Claude Code 문서, ‘Choose a permission mode’ 머리말", "url": "https://code.claude.com/docs/en/permission-modes" },
-    { "claim": "Claude Code에서 작업 폴더 안의 파일을 읽는 것은 어느 방식에서도 묻지 않고, 모든 것을 묻지 않고 하는 방식도 있다.", "kind": "data", "source": "Claude Code 문서, ‘Choose a permission mode’, ‘Available modes’ 표", "url": "https://code.claude.com/docs/en/permission-modes" },
-    { "claim": "Claude Code의 auto 방식에서는 사람 대신 또 다른 모델이 행동을 살펴본다.", "kind": "data", "source": "Claude Code 문서, ‘Choose a permission mode’ 머리말", "url": "https://code.claude.com/docs/en/permission-modes" },
+    { "claim": "Claude Code는 기본 규칙에서 작업 폴더 안의 파일 읽기를 묻지 않고 한다.", "kind": "data", "source": "Claude Code 문서, ‘Choose a permission mode’, ‘Available modes’ 표", "url": "https://code.claude.com/docs/en/permission-modes" },
+    { "claim": "Claude Code에서 묻기를 건너뛰는 방식에서도 일부 행동은 여전히 묻거나 막힌다.", "kind": "data", "source": "Claude Code 문서, ‘Choose a permission mode’, ‘Actions no mode auto-approves’ 절", "url": "https://code.claude.com/docs/en/permission-modes" },
+    { "claim": "Codex와 Claude Code에는 둘 다, 사람 대신 모델이 행동을 살펴보게 하는 방식이 있다.", "kind": "data", "source": "Codex 문서 ‘Common sandbox and approval combinations’의 Auto-review; Claude Code 문서 ‘Choose a permission mode’ 머리말", "url": "https://learn.chatgpt.com/docs/agent-approvals-security" },
+    { "claim": "Claude Code에도 명령이 닿는 범위를 막아 두는 샌드박스가 있다.", "kind": "data", "source": "Claude Code 문서, ‘Choose a permission mode’, ‘Common setups’ 절", "url": "https://code.claude.com/docs/en/permission-modes" },
     { "claim": "스스로 일하는 에이전트는 잘못이 쌓일 수 있어, 안전장치를 두라고 권한다.", "kind": "data", "source": "Anthropic, ‘Building effective agents’, ‘Agents’ 절", "url": "https://www.anthropic.com/research/building-effective-agents" },
-    { "claim": "이번 일은 쪽지 7장이다: 보기 1, 폴더 만들기 1, 옮기기 3, 지우기 1, 다시 보기 1.", "kind": "assumption", "source": "앞 편의 왕복 6번에 지우기 1장을 더한 예시예요." },
+    { "claim": "영수증 사진은 처음에 12개다.", "kind": "assumption", "source": "이 안내서를 위해 지어낸 예시예요." },
+    { "claim": "쪽지 7장: 보기 1, 폴더 만들기 1, 옮기기 3, 지우기 1, 다시 보기 1.", "kind": "assumption", "source": "앞 편의 왕복 6번에 지우기 1장을 더한 예시예요." },
     { "claim": "LLM은 이름만 보고 3개를 중복으로 본다. 2개는 진짜 중복이고 1개는 같은 날의 다른 영수증이다.", "kind": "assumption", "source": "이 안내서를 위해 지어낸 예시예요." },
     { "claim": "지민의 하네스에는 허락 설정이 셋 있다: 바꿀 때마다 묻기, 지울 때만 묻기, 안 묻기.", "kind": "assumption", "source": "Codex와 Claude Code의 설정을 쉽게 줄여 지어낸 예시예요." },
-    { "claim": "지민은 물음을 받을 때마다 옳게 답한다.", "kind": "assumption", "source": "견주기 쉽게 정한 약속이에요. 자주 묻는 설정에서는 사람이 읽지 않고 허락하기 쉬워요." }
+    { "claim": "지민은 물음을 받을 때마다 확인하고 옳게 답한다.", "kind": "assumption", "source": "비교하기 쉽게 정한 약속이에요." }
   ],
   "goals": [
     { "text": "에이전트도 틀릴 수 있음을", "step": 3 },
     { "text": "멈춰 세우는 것이 하네스임을", "step": 4 },
     { "text": "하네스가 묻고 사람이 정함을", "step": 6 },
     { "text": "묻는 정도가 고르는 설정임을", "step": 8 },
-    { "text": "실제 하네스에도 같은 설정이 있음을", "step": 9 }
+    { "text": "실제 하네스에도 비슷한 설정이 있음을", "step": 9 }
   ],
   "metrics": [
-    { "id": "auto", "label": "묻지 않고 한 쪽지", "unit": "장", "icon": "bolt" },
+    { "id": "auto", "label": "묻지 않고 처리한 쪽지", "unit": "장", "icon": "bolt" },
     { "id": "asked", "label": "묻고 처리한 쪽지", "unit": "장", "icon": "shield" },
     { "id": "total", "label": "처리한 쪽지", "unit": "장", "icon": "mail" }
   ],
@@ -40,7 +43,7 @@ Diorama.walkthrough({
     "laptop": { "type": "zone", "x": 2, "y": -7.5, "w": 20, "h": 13, "color": "yellow", "label": "지민의 노트북" },
     "jimin": { "type": "actor", "x": 8, "y": -18, "color": "gray", "label": "지민", "sub": "꽃집 사장" },
     "harness": { "type": "block", "x": 8, "y": -10, "color": "blue", "glyph": "shield", "label": "하네스", "sub": "노트북의 프로그램" },
-    "folder": { "type": "db", "x": 0, "y": -10, "color": "violet", "glyph": "file", "label": "영수증 폴더", "sub": "사진 12개" },
+    "folder": { "type": "db", "x": 0, "y": -10, "color": "violet", "glyph": "file", "label": "영수증 폴더", "sub": "영수증 사진" },
     "llm": { "type": "block", "x": 8, "y": 4, "color": "orange", "glyph": "chip", "label": "LLM", "sub": "AI 회사의 컴퓨터" }
   },
   "links": {
@@ -58,7 +61,7 @@ Diorama.walkthrough({
         "지민이 이번에는 한 가지를 더 부탁해요. <em>“영수증 폴더를 월별로 정리하고, 중복된 사진은 지워 줘.”</em>",
         "폴더는 다시 사진 12개가 뒤섞인 처음 모습이에요. 정리는 지난번에 봤으니, 이번에는 <b>지우기</b>에서 무슨 일이 일어나는지 봐요."
       ],
-      "callout": { "kind": "tip", "text": "이번에 세는 것은 하네스가 처리한 쪽지 가운데, 지민에게 묻고 처리한 쪽지가 몇 장인가예요." },
+      "callout": { "kind": "tip", "text": "하네스가 처리한 쪽지 가운데, 지민에게 먼저 물은 쪽지가 몇 장인지 세어 봐요." },
       "metrics": { "auto": null, "asked": null, "total": null },
       "scene": {
         "show": ["laptop", "jimin", "folder"],
@@ -76,7 +79,7 @@ Diorama.walkthrough({
         "에이전트가 일을 시작해요. LLM의 쪽지 다섯 장은 지난번과 같아요. 폴더 보기 1장, 월별 폴더 만들기 1장, 사진 옮기기 3장이에요.",
         "하네스는 다섯 장을 모두 묻지 않고 처리했어요. 사진 12개가 월별로 들어갔어요. 지민은 그동안 가게 일을 봤어요."
       ],
-      "changes": ["+ 하네스, LLM", "~ 폴더: 12개 월별 정리", "~ 묻지 않고 한 쪽지 5장"],
+      "changes": ["+ 하네스, LLM", "~ 폴더: 12개 월별 정리", "~ 묻지 않고 처리한 쪽지 5장 (다섯 번을 한 장면으로 모음)"],
       "metrics": { "auto": 5, "asked": null, "total": 5 },
       "scene": {
         "show": ["laptop", "jimin", "folder", "harness", "llm"],
@@ -156,10 +159,10 @@ Diorama.walkthrough({
       "chapter": "technique",
       "title": "하네스가 지민에게 물어요",
       "body": [
-        "하네스가 지민의 화면에 물음을 띄워요. <em>“이 3개를 지워도 될까요?”</em> 지울 파일 이름 3개도 함께 보여 줘요.",
-        "가게 일을 보던 지민이 화면을 봐요. 이름을 읽다가 하나가 눈에 걸려요. 그날 화분을 두 번 샀던 것이 생각났어요."
+        "하네스가 지민의 화면에 물음을 띄워요. <em>“이 3개를 지워도 될까요?”</em> 지울 사진 3장도 함께 보여 줘요.",
+        "가게 일을 보던 지민이 사진을 열어 봐요. 두 장은 정말 같은 사진인데, 한 장은 금액이 달라요. 그날 화분을 한 번 더 사고 받은 영수증이에요."
       ],
-      "changes": ["+ 하네스 → 지민: 3개 지워도 될까요?"],
+      "changes": ["+ 하네스 → 지민: 3개 지워도 될까요?", "~ 하네스: 지민의 답을 기다림"],
       "metrics": { "auto": 5, "asked": null, "total": 5 },
       "scene": {
         "show": ["laptop", "jimin", "folder", "harness", "llm"],
@@ -180,7 +183,7 @@ Diorama.walkthrough({
         "지민이 답해요. <em>“2개만 지워요. 나머지 하나는 다른 영수증이에요.”</em> 하네스는 허락받은 2개만 지워요.",
         "폴더에는 10개가 남았고, 다른 영수증은 무사해요. 여섯 번째 쪽지는 <b>묻고 처리한 쪽지</b> 1장이 됐어요."
       ],
-      "changes": ["~ 지민 → 하네스: 2개만 지워요", "~ 폴더: 10개 남음, 영수증 무사", "~ 묻고 처리한 쪽지 1장"],
+      "changes": ["~ 지민 → 하네스: 2개만 지워요", "~ 하네스 → 폴더: 지우기, 10개 남음", "~ 묻고 처리한 쪽지 1장"],
       "metrics": { "auto": 5, "asked": 1, "total": 6 },
       "scene": {
         "show": ["laptop", "jimin", "folder", "harness", "llm"],
@@ -189,7 +192,7 @@ Diorama.walkthrough({
           "harness": { "tags": [{ "text": "허락받은 2개만 지움", "tone": "green" }] }
         },
         "links": { "type": { "label": "2개만 지워요" }, "reply": { "style": "dashed", "label": "" }, "act": { "label": "지우기" } },
-        "flows": [{ "route": ["type", "act"], "kind": "write", "rate": 0.6 }],
+        "flows": [{ "route": ["type"], "kind": "request", "rate": 0.6 }, { "route": ["act"], "kind": "write", "rate": 0.6 }],
         "panel": null
       }
     },
@@ -201,7 +204,7 @@ Diorama.walkthrough({
         "하네스는 결과를 LLM에게 알려 줘요. 2개는 지웠고 1개는 지민이 남기라고 했다고요. LLM은 일곱 번째 쪽지로 폴더를 다시 보여 달라고 해요.",
         "보기는 묻지 않아도 되는 일이라 하네스가 바로 처리해요. 쪽지 7장 가운데 묻지 않고 한 것이 6장, 묻고 처리한 것이 <b>1장</b>이에요."
       ],
-      "changes": ["~ 쪽지: 폴더 다시 보여 줘", "~ 묻지 않고 한 쪽지 5 → 6장", "~ 처리한 쪽지 6 → 7장"],
+      "changes": ["~ 쪽지: 폴더 다시 보여 줘", "~ LLM: 2개 지움, 1개 남김을 들음", "~ 묻지 않고 처리한 쪽지 5 → 6장"],
       "metrics": { "auto": 6, "asked": 1, "total": 7 },
       "scene": {
         "show": ["laptop", "jimin", "folder", "harness", "llm"],
@@ -239,7 +242,7 @@ Diorama.walkthrough({
         "options": [
           {
             "label": "바꿀 때마다",
-            "verdict": { "tone": "amber", "text": "5번 멈춰서 물음", "why": "만들기 1, 옮기기 3, 지우기 1. 바꾸는 쪽지 5장마다 멈춰서 지민이 자리를 뜰 수 없어요." },
+            "verdict": { "tone": "amber", "text": "5번 멈춰서 물음", "why": "폴더 만들기 1번, 옮기기 3번, 지우기 1번에 각각 멈춰서 모두 5번 묻고, 그때마다 일이 지민의 답을 기다려요." },
             "metrics": { "auto": 2, "asked": 5, "total": 7 },
             "scene": {
               "state": {
@@ -282,13 +285,13 @@ Diorama.walkthrough({
     {
       "short": "실제 설정",
       "chapter": "insight",
-      "title": "실제 하네스에도 이 설정이 있어요",
+      "title": "실제 하네스에도 비슷한 설정이 있어요",
       "body": [
-        "ChatGPT의 Codex에는 언제 멈춰서 물을지 정하는 설정이 있어요. Codex와 같은 종류인 Claude Code에도, 고치거나 실행하기 전에 묻는 방식부터 아무것도 묻지 않는 방식까지 여러 단계가 있어요.",
-        "Codex는 여기에 <span class=\"term\">샌드박스</span>, 곧 하네스가 건드릴 수 있는 범위를 미리 막아 두는 울타리도 함께 써요. 어느 쪽이든 멈추고 막는 것은 하네스이고, 정도를 정하는 것은 사람이에요."
+        "이제 지울 때만 물었던 원래 이야기로 돌아와요. ChatGPT의 Codex에도, Codex와 같은 종류인 Claude Code에도 언제 멈춰서 물을지 정하는 설정이 있어요. 자주 묻는 방식부터 거의 묻지 않는 방식까지 여러 단계예요.",
+        "두 프로그램 모두 <span class=\"term\">샌드박스</span>, 곧 건드릴 수 있는 범위를 미리 막아 두는 울타리도 쓸 수 있어요. 그래서 묻지 않아도 아예 못 하는 일이 있어요. 멈추고 막는 것은 하네스이고, 규칙을 고르는 것은 쓰는 사람이나 회사예요."
       ],
-      "callout": { "kind": "tip", "text": "Claude Code에는 사람 대신 또 다른 모델이 행동을 살펴보게 하는 방식도 있어요. 묻는 횟수는 줄이고 위험한 일은 걸러 내려는 것이에요." },
-      "changes": ["~ 하네스: 언제 물을지, 어디까지 닿을지", "~ 폴더: 지울 때만 묻기의 결과로 돌아옴"],
+      "callout": { "kind": "tip", "text": "Codex와 Claude Code에는 사람 대신 또 다른 모델이 행동을 살펴보게 하는 방식도 있어요. 묻는 횟수는 줄이고 위험한 일은 걸러 내려는 것이에요." },
+      "changes": ["~ 하네스: 언제 묻나, 어디까지 닿나", "~ 폴더: 지울 때만 묻기의 결과로 돌아옴"],
       "metrics": { "auto": 6, "asked": 1, "total": 7 },
       "scene": {
         "show": ["laptop", "jimin", "folder", "harness", "llm"],
@@ -307,9 +310,9 @@ Diorama.walkthrough({
       "title": "쪽지 7장 가운데 1번 물었어요",
       "body": [
         "하네스는 쪽지 7장 가운데 6장을 묻지 않고 처리했고, 지우기 <b>1장</b>에서 멈춰 지민에게 물었어요. 그 한 번이 영수증 1개를 지켰어요.",
-        "<ul class=\"takeaways\"><li>멈추고 묻는 것은 <b>하네스</b>예요. LLM은 쪽지를 쓸 뿐이에요.</li><li>LLM의 쪽지는 <b>틀릴 수 있어요</b>. 이름만 보고 중복으로 본 3개 가운데 1개는 아니었어요.</li><li>얼마나 물을지는 <b>사람이 고르는 설정</b>이에요.</li><li>너무 자주 물으면 맡긴 보람이 없고, 안 물으면 <b>되돌리기 어려운 일</b>이 그냥 일어나요.</li></ul>"
+        "<ul class=\"takeaways\"><li>멈추고 묻는 것은 <b>하네스</b>예요. LLM은 쪽지를 쓸 뿐이에요.</li><li>LLM의 쪽지는 <b>틀릴 수 있어요</b>. 이름만 보고 중복으로 본 3개 가운데 1개는 아니었어요.</li><li>얼마나 물을지는 <b>고르는 설정</b>이에요. ChatGPT의 Codex에도 Claude Code에도 있어요.</li><li>너무 자주 물으면 일이 자꾸 멈추고, 이 예에서 안 묻기로 두면 <b>잘못 고른 사진</b>도 지워져요.</li></ul>"
       ],
-      "callout": { "kind": "next", "text": "<b>같은 두뇌, 다른 작업실</b>: Claude Code, Codex, omp. 하네스가 다르면 무엇이 달라질까요?" },
+      "callout": { "kind": "next", "text": "<b>같은 두뇌, 다른 작업실</b>: ChatGPT의 Codex, Claude Code, omp. 하네스가 다르면 무엇이 달라질까요?" },
       "metrics": { "auto": 6, "asked": 1, "total": 7 },
       "scene": {
         "show": ["laptop", "jimin", "folder", "harness", "llm"],
@@ -319,7 +322,7 @@ Diorama.walkthrough({
         },
         "links": { "type": { "style": "dashed", "label": "" }, "reply": { "style": "dashed", "label": "쪽지 7장" }, "act": { "style": "dashed", "label": "" } },
         "flows": [],
-        "panel": { "title": "쪽지 7장", "lines": ["묻지 않고 한 쪽지  6장", "묻고 처리한 쪽지  1장", "= 처리한 쪽지  7장"] }
+        "panel": { "title": "쪽지 7장", "lines": ["묻지 않고 처리한 쪽지  6장", "묻고 처리한 쪽지  1장", "= 처리한 쪽지  7장"] }
       }
     }
   ]
