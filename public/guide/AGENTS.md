@@ -110,9 +110,9 @@ never needs an edit. The step story is the only template today; a walkthrough ne
 The format, the wording budgets and the checklist are in the `diorama-maker` skill
 (`references/walkthrough-schema.md`, `wording.md`, `checklist.md`). If that skill is not
 installed, read an existing file in `walkthroughs/` as the model and keep to its shape:
-one question, one concrete case, one scene that grows by at most two objects per step, two
-short paragraphs per step, numbers that add up and are listed in `sources`, a recap with
-reusable rules.
+one question, one concrete case, one scene that grows by at most two objects per step, with
+neighbouring objects about 9 grid units apart (never under 6), two short paragraphs per step,
+numbers that add up and are listed in `sources`, a recap with reusable rules.
 
 ## Resuming work
 
@@ -128,12 +128,9 @@ reusable rules.
 <!-- Things a walkthrough needed that the stage could not draw. One line each, newest last. -->
 
 - **Fixed interface text is English.** "Replay", "Pause", "Search", "Good to know", "Key idea",
-  "Watch out", "Next up", "8 min", "beginner", "10 steps", "0 of 1 read" and the keyboard hint
-  come from the engine and cannot be renamed with `labels`. For Korean lay readers this needs
-  an engine change in the diorama-maker skill.
-- **An overlap with an object crashes the walkthrough instead of warning.** `engine/stage-iso.js`
-  (0.4.0) calls an undefined helper `q` when it reports "…overlaps the … object", so the page
-  shows "the engine could not read it (q is not defined)". Until the skill fixes it, read that
-  message as "a label, tag or zone name covers an object": move the node or enlarge the zone.
+  "Watch out", "Next up", "8 min", "beginner", "10 steps", "0 of 1 read", the keyboard hint and
+  the theme button's title ("Theme: system. Switch to light.") come from the engine and cannot
+  be renamed with `labels`. For Korean lay readers this needs an engine change in the
+  diorama-maker skill.
 - **A zone's name sits on its far (high `y`) edge** and needs about 8 clear grid units between
   that edge and the zone's nodes, so one zone is affordable and two crowd the stage.

@@ -39,9 +39,9 @@ Diorama.walkthrough({
   ],
   "nodes": {
     "laptop": { "type": "zone", "x": 2, "y": -7.5, "w": 20, "h": 13, "color": "yellow", "label": "지민의 노트북" },
-    "jimin": { "type": "actor", "x": 8, "y": -18, "color": "gray", "label": "지민", "sub": "꽃집 사장" },
+    "jimin": { "type": "actor", "x": 8, "y": -19, "color": "gray", "label": "지민", "sub": "꽃집 사장" },
     "app": { "type": "device", "x": 8, "y": -10, "color": "yellow", "label": "채팅 앱", "sub": "노트북 화면" },
-    "folder": { "type": "db", "x": 0, "y": -10, "color": "violet", "glyph": "file", "label": "영수증 폴더", "sub": "사진 12개" },
+    "folder": { "type": "db", "x": -1, "y": -10, "color": "violet", "glyph": "file", "label": "영수증 폴더", "sub": "사진 12개" },
     "llm": { "type": "block", "x": 8, "y": 4, "color": "orange", "glyph": "chip", "label": "LLM", "sub": "AI 회사의 컴퓨터" }
   },
   "links": {
