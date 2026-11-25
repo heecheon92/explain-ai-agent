@@ -48,7 +48,7 @@ Diorama.collection({
           "id": "harness",
           "title": "LLM에게 손을 달다",
           "summary": "LLM이 쓴 쪽지 한 장이 노트북에서 실제 행동이 되기까지, 하네스가 하는 일을 따라가요.",
-          "status": "approved",
+          "status": "drafted",
           "minutes": 8,
           "level": "beginner"
         },

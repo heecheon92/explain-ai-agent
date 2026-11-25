@@ -152,3 +152,86 @@
 .tile-metrics b { color: var(--ink); font-variant-numeric: tabular-nums; }
 .tile-words { display: flex; flex-wrap: wrap; gap: 2px 10px; margin: 0; font-size: 11.5px; color: var(--muted); }
 .tile-words .over { color: var(--red-f); font-weight: 800; }
+
+/* ================= Experiment: where the explanation sits =================
+   LOCAL EXPERIMENT, not part of the Diorama engine (see "Experiment" in template-story.js).
+   .page[data-explain] is "side" (the engine's own layout), "pin", "sub" or "inside". */
+.exp-switch { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 0 4px 10px; flex-shrink: 0; }
+.exp-label { font-size: 11px; font-weight: 800; letter-spacing: .04em; color: var(--muted); margin-right: 4px; }
+.exp-switch .btn[aria-pressed="true"] { background: var(--amber-b); transform: translateY(2px); box-shadow: 0 .5px 0 var(--drop); }
+
+.stage-box { position: relative; min-width: 0; }
+@media (min-width: 1100px) and (min-height: 640px) {
+  @container dio (min-width: 1100px) {
+    .stage-box { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+  }
+}
+/* On the stage, the side card gives way; "자세히" brings it back. */
+.page:is([data-explain="pin"], [data-explain="sub"]):not(.exp-more) .explain { display: none; }
+.page:is([data-explain="pin"], [data-explain="sub"]):not(.exp-more) .layout, .page[data-explain="inside"] .layout { grid-template-columns: minmax(0, 1fr); grid-template-areas: "stage" "strip"; }
+
+/* "inside": the explanation is a pane floating over the stage. The stage surface runs under it
+   and the picture is framed in the room beside it, so the pane never covers an object. */
+[data-explain="inside"] .stage-box .explain { margin-top: 12px; border-radius: 14px; }
+@container dio (min-width: 1100px) {
+  [data-explain="inside"] .stage-box { display: grid; grid-template-columns: minmax(0, 1fr) clamp(320px, 30%, 400px); grid-template-rows: minmax(0, 1fr) auto auto; background: var(--stage); border: 1px solid var(--line); border-radius: 12px; }
+  [data-explain="inside"] .stage-box > * { grid-column: 1; }
+  [data-explain="inside"] .stage-box .scene-wrap { border: 0; background: none; }
+  [data-explain="inside"] .stage-box .explain { grid-column: 2; grid-row: 1 / span 3; align-self: start; margin: 14px 14px 14px 0; max-height: calc(100% - 28px); min-height: 0; overflow-y: auto; box-shadow: 0 3px 0 var(--drop), 0 14px 34px rgba(0, 0, 0, .28); }
+  [data-explain="inside"] .stage-box .narr-pin { display: none; }
+  /* The pane scrolls when a step is long; Back and Next stay in reach at its bottom edge. */
+  [data-explain="inside"] .stage-box .explain { overflow-x: hidden; }
+  [data-explain="inside"] .stage-box .explain .nav { position: sticky; bottom: -16px; z-index: 1; margin: 8px -20px 0; padding: 10px 20px 16px; background: var(--card); border-top: 1px solid var(--line); }
+}
+
+.narr-say { min-width: 0; }
+.narr-say.swap { animation: value-in .42s cubic-bezier(.2, .7, .2, 1); }
+.narr-meta { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 0; font-size: 11.5px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.narr-more { font: inherit; font-weight: 700; color: var(--muted); background: none; border: 0; padding: 0; cursor: pointer; text-decoration: underline; text-underline-offset: 2px; }
+.narr-more:hover, .narr-more[aria-pressed="true"] { color: var(--ink); }
+.narr-title { margin: 3px 0 4px; font-size: 17px; line-height: 1.3; font-weight: 800; letter-spacing: -0.01em; }
+.narr-text { margin: 0; font-size: 15px; line-height: 1.6; color: var(--ink-2); }
+.narr-text b, .narr-text .term { color: var(--ink); }
+/* A try step: the options sit beside the text under the stage, and under it in the bubble. */
+.narr-say .try { margin: 8px 0 0; padding: 0; border: 0; background: none; text-align: left; }
+.narr-say .try .section-h, .narr-say .try .try-prompt { display: none; }
+.narr-say .try-verdict { margin-top: 8px; padding: 7px 10px 8px; }
+.narr-say .try-v-opt { display: none; }
+.narr-dock .narr-say.has-try { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 18px; align-items: center; text-align: left; }
+.narr-dock .narr-say.has-try .narr-meta { justify-content: space-between; }
+.narr-dock .narr-say.has-try .try { margin: 0; }
+.narr-dock .narr-slot:has(.has-try) { flex-basis: 1000px; }
+[data-explain="sub"] .narr-say.has-try { max-width: none; }
+
+/* The bubble next to an object */
+.narr-pin { position: absolute; left: 0; top: 0; z-index: 3; width: min(330px, calc(100% - 16px)); padding: 11px 14px 13px; background: var(--card); border: 1.3px solid var(--ink); border-radius: 14px; box-shadow: 0 3px 0 var(--drop); opacity: 0; pointer-events: none; }
+/* Hidden while its object arrives, then it comes in beside it. */
+.narr-pin.in { opacity: 1; pointer-events: auto; transition: transform .3s cubic-bezier(.2, .7, .2, 1), opacity .3s ease; animation: pin-in .34s cubic-bezier(.2, .7, .2, 1); }
+@keyframes pin-in { from { scale: .92; } }
+
+/* Under the stage: the buttons, and in "sub" the explanation between them */
+.narr-dock { display: flex; align-items: center; justify-content: center; gap: 14px; margin-top: 10px; flex-shrink: 0; }
+.narr-dock .btn { flex-shrink: 0; }
+.narr-dock [data-ref="nNext"] { max-width: 220px; }
+.narr-dock [data-ref="nNext"] span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.narr-slot { flex: 0 1 760px; min-width: 0; }
+
+[data-explain="pin"] .narr-slot { display: none; }
+
+[data-explain="sub"] .narr-slot { text-align: center; padding: 2px 8px; }
+[data-explain="sub"] .narr-say { max-width: 780px; margin: 0 auto; }
+[data-explain="sub"] .narr-meta { justify-content: center; }
+[data-explain="sub"] .narr-say .try-options { justify-content: center; }
+
+/* Stacked layout: a shorter stage keeps the explanation under it on the same screen. */
+@container dio (max-width: 1099px) {
+  .page:is([data-explain="pin"], [data-explain="sub"]) .scene { height: clamp(280px, calc(100vh - 600px), 760px); }
+}
+@container dio (max-width: 760px) {
+  .narr-dock .narr-say.has-try { display: block; }
+  .narr-dock .narr-say.has-try .try { margin-top: 8px; }
+  .narr-dock { flex-wrap: wrap; }
+  .narr-slot { order: -1; flex-basis: 100%; }
+  .narr-dock .btn { flex: 1 1 0; }
+}
+@media (prefers-reduced-motion: reduce) { .narr-pin.in { transition: none; animation: none; } .narr-say.swap { animation: none; } }

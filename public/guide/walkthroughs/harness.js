@@ -258,7 +258,7 @@ Diorama.walkthrough({
             }
           },
           {
-            "label": "보기만",
+            "label": "파일 목록 보기",
             "verdict": { "tone": "amber", "text": "보기만 함", "why": "폴더 보기 1번으로 이름 12개는 전했지만, 옮기기 도구가 없어 옮긴 사진은 0개예요." },
             "metrics": { "llm": 0, "harness": 1, "total": 1 },
             "scene": {
@@ -272,7 +272,7 @@ Diorama.walkthrough({
             }
           },
           {
-            "label": "보기와 옮기기",
+            "label": "파일 목록 보기 + 파일 옮기기",
             "verdict": { "tone": "green", "text": "사진 1개 옮김", "why": "앞서 본 보기 1번에 옮기기 1번을 더해 2번, 모두 하네스가 해서 사진 1개가 정리돼요." },
             "metrics": { "llm": 0, "harness": 2, "total": 2 },
             "scene": {

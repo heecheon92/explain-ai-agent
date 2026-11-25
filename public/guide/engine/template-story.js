@@ -51,6 +51,7 @@ Diorama.defineTemplate('story', { stage: 'iso' }, (kit, stage) => {
     </div>
     <ul data-ref="pills" class="pills" aria-label="About this walkthrough"></ul>
   </header>
+  <div data-ref="expSwitch" class="exp-switch" role="group" aria-label="실험: 설명 위치"></div>
   <div class="layout">
     <section class="stage card" aria-label="Stage">
       <div class="stage-top">
@@ -59,7 +60,15 @@ Diorama.defineTemplate('story', { stage: 'iso' }, (kit, stage) => {
           ${S.controls}
         </div>
       </div>
-      ${S.scene}
+      <div data-ref="stageBox" class="stage-box">
+        ${S.scene}
+        <div data-ref="narrPin" class="narr-pin" hidden></div>
+      </div>
+      <div data-ref="narrDock" class="narr-dock" hidden>
+        <button data-ref="nBack" class="btn" type="button"></button>
+        <div data-ref="narrSlot" class="narr-slot"></div>
+        <button data-ref="nNext" class="btn primary" type="button"></button>
+      </div>
       <ul data-ref="legend" class="legend" aria-label="Legend"></ul>
       ${S.text}
     </section>
@@ -99,6 +108,8 @@ Diorama.defineTemplate('story', { stage: 'iso' }, (kit, stage) => {
   // only once.
 
   const models = new WeakMap();
+  // Local experiment (see "Experiment" in mount): the narration file is asked for once.
+  let narrationAsked = false, onNarration = null;
   const OPTION_LETTERS = 'abcde';
   const UNSPACED = /\p{Script=Han}|\p{Script=Hiragana}|\p{Script=Katakana}|\p{Script=Thai}/gu;
 
@@ -525,17 +536,17 @@ Diorama.defineTemplate('story', { stage: 'iso' }, (kit, stage) => {
 
     const sceneNow = () => (choice >= 0 && tries[cur] ? tries[cur].options[choice].scene : cur);
 
-    function tryBlock(t) {
+    function tryBlock(t, idEnd = '') {
       const buttons = t.options.map((o, k) => `<button type="button" class="btn try-opt" data-try="${k}" aria-pressed="false"><kbd aria-hidden="true">${k + 1}</kbd><span>${esc(o.label)}</span></button>`).join('');
-      return `<section class="try" aria-labelledby="dio-try-head" aria-live="off"><h3 class="section-h" id="dio-try-head">${esc(LBL.try)}</h3>`
+      return `<section class="try" aria-labelledby="dio-try-head${idEnd}" aria-live="off"><h3 class="section-h" id="dio-try-head${idEnd}">${esc(LBL.try)}</h3>`
         + `${t.prompt ? `<p class="try-prompt">${esc(t.prompt)}</p>` : ''}`
         + `<div class="try-options" role="group" aria-label="${esc(t.prompt || LBL.try)}">${buttons}`
         + `<button type="button" class="btn small try-reset" data-try="reset" hidden>${iconHtml('replay')}<span>${esc(LBL.reset)}</span></button></div>`
         + '<div class="try-verdict" hidden></div></section>';
     }
 
-    function syncTry() {
-      const box = $('guide').querySelector('.try');
+    function syncTry() { for (const root of [$('guide'), say]) syncTryIn(root.querySelector('.try')); }
+    function syncTryIn(box) {
       if (!box) return;
       const o = choice >= 0 ? tries[cur].options[choice] : null;
       for (const b of box.querySelectorAll('.try-opt')) b.setAttribute('aria-pressed', String(Number(b.dataset.try) === choice));
@@ -601,6 +612,11 @@ Diorama.defineTemplate('story', { stage: 'iso' }, (kit, stage) => {
       } else {
         next.innerHTML = `<span>${esc(LBL.next)}: ${esc(STEPS[i + 1].short || `step ${i + 2}`)}</span>${iconHtml('arrow')}`;
       }
+      // Experiment: the same two buttons under the stage.
+      $('nBack').innerHTML = back.innerHTML;
+      $('nBack').disabled = back.disabled;
+      $('nBack').title = back.title;
+      $('nNext').innerHTML = next.innerHTML;
     }
 
     function renderGoals(i) {
@@ -661,6 +677,201 @@ Diorama.defineTemplate('story', { stage: 'iso' }, (kit, stage) => {
       S.after(Math.max(0, end - 300), () => S.inline(k, true));
     }
 
+    /* ================= Experiment: where the explanation sits ================= */
+    // LOCAL EXPERIMENT, not part of the Diorama engine: two ways to bring a short explanation
+    // onto the stage, next to the picture, beside the engine's own side card. The reader's choice
+    // is kept in localStorage; ?explain=side|pin|sub|inside in the address opens one directly.
+    // The short text of a step comes from experiments/narration.js (window.DioramaNarration);
+    // a step that file does not cover falls back to its callout or first paragraph.
+
+    const EXP_KEY = 'diorama:exp-explain';
+    const EXP = [['side', '옆 카드 (지금)'], ['pin', '물체 옆 말풍선'], ['sub', '자막'], ['inside', '그림 안 설명']];
+    const page = host.querySelector('.page');
+    const say = document.createElement('div');
+    say.className = 'narr-say';
+    say.setAttribute('aria-live', 'polite');
+    let variant = 'side', more = false;
+    try {
+      let v = new URLSearchParams(location.search).get('explain') || localStorage.getItem(EXP_KEY);
+      if (v === 'guide') v = 'sub';   // the guide character was dropped; the caption took its place
+      if (EXP.some(([id]) => id === v)) variant = v;
+    } catch (err) { /* storage blocked */ }
+
+    $('expSwitch').innerHTML = '<span class="exp-label">실험 · 설명 위치</span>' + EXP.map(([id, label]) => '<button type="button" class="btn small" data-explain="' + id + '" aria-pressed="false">' + esc(label) + '</button>').join('');
+
+    function setVariant(v, save) {
+      variant = v;
+      if (save) try { localStorage.setItem(EXP_KEY, v); } catch (err) { /* storage blocked */ }
+      page.dataset.explain = v;
+      for (const b of $('expSwitch').querySelectorAll('[data-explain]')) b.setAttribute('aria-pressed', String(b.dataset.explain === v));
+      $('narrPin').hidden = v !== 'pin';
+      $('narrDock').hidden = v === 'side' || v === 'inside';
+      // "inside": the whole explanation card moves into the stage card, beside the picture.
+      const card = host.querySelector('.explain'), layout = host.querySelector('.layout');
+      if (v === 'inside') $('stageBox').appendChild(card);
+      else if (card.parentNode !== layout) layout.insertBefore(card, host.querySelector('.strip'));
+      (v === 'pin' ? $('narrPin') : $('narrSlot')).appendChild(say);
+      pinOff = null;
+      hidePin();
+    }
+
+    function setMore(v) {
+      more = v;
+      page.classList.toggle('exp-more', more);
+      const b = say.querySelector('[data-more]');
+      if (b) b.setAttribute('aria-pressed', String(more));
+    }
+
+    const isNode = (id) => isObject(w.nodes) && isObject(w.nodes[id]) && w.nodes[id].type !== 'zone';
+    const shownAt = (i) => (i >= 0 && isObject(STEPS[i].scene) && Array.isArray(STEPS[i].scene.show) ? STEPS[i].scene.show : []);
+
+    // The object a step is about when the narration file does not name one: the one its title
+    // names, else the newest object, else where the step's last flow ends, else nothing (the
+    // bubble then sits at the top).
+    function autoAt(i) {
+      // The object the step's title names first is what the step is about.
+      const title = String(STEPS[i].title || '');
+      let named = null, where = Infinity;
+      for (const id of shownAt(i)) {
+        const label = isNode(id) ? String(w.nodes[id].label || '') : '';
+        const k = label ? title.indexOf(label) : -1;
+        if (k >= 0 && k < where) { named = id; where = k; }
+      }
+      if (named) return named;
+      const before = new Set(shownAt(i - 1)), fresh = shownAt(i).filter((id) => !before.has(id) && isNode(id));
+      if (fresh.length) return fresh[fresh.length - 1];
+      const flows = isObject(STEPS[i].scene) && Array.isArray(STEPS[i].scene.flows) ? STEPS[i].scene.flows : [];
+      const route = flows.length && Array.isArray(flows[flows.length - 1].route) ? flows[flows.length - 1].route : [];
+      const link = route.length && isObject(w.links) ? w.links[route[route.length - 1]] : null;
+      return link && isNode(link.to) ? link.to : null;
+    }
+
+    function narration(i) {
+      const all = window.DioramaNarration, own = all && Array.isArray(all[w.id]) && isObject(all[w.id][i]) ? all[w.id][i] : {};
+      const s = STEPS[i];
+      let text = typeof own.say === 'string' ? esc(own.say) : '';
+      if (!text && s.callout && s.callout.kind === 'insight' && s.callout.text) text = s.callout.text;
+      if (!text) text = (s.body || []).find((para) => !/^\s*<(ul|ol)\b/i.test(para)) || '';
+      return { text, at: isNode(own.at) ? own.at : autoAt(i) };
+    }
+
+    let pinAt = null;
+    function renderSay(i) {
+      const s = STEPS[i], n = narration(i);
+      pinAt = n.at;
+      pinOff = null;
+      hidePin();
+      say.classList.toggle('has-try', !!tries[i]);
+      say.innerHTML = '<div class="narr-main"><p class="narr-meta"><span>' + (i + 1) + ' / ' + STEPS.length + '</span>'
+        + '<button type="button" class="narr-more" data-more aria-pressed="' + more + '">자세히</button></p>'
+        + '<h2 class="narr-title">' + esc(s.title || '') + '</h2><p class="narr-text">' + n.text + '</p></div>'
+        + (tries[i] ? tryBlock(tries[i], '-narr') : '');
+      if (!reduce) restartAnim(say, 'swap');
+    }
+
+    /* ---------- The bubble next to an object ---------- */
+    // Placed from where the object is on screen, every frame, so it follows the object while a
+    // step plays and while the reader zooms or pans. The side is chosen to cover as little of
+    // the other objects as possible and is kept until another side is clearly better.
+
+    let pinSide = '', pinOff = null;
+    // The bubble waits for its object: it stays hidden while a step plays and comes in once the
+    // object has stopped moving (it has landed and the camera has settled).
+    let pinShown = false, pinLast = '', pinStill = 0, pinSince = 0;
+    function hidePin() {
+      pinShown = false;
+      pinLast = '';
+      pinStill = 0;
+      pinSince = performance.now();
+      $('narrPin').classList.remove('in');
+    }
+
+    const boxOf = (el) => { const b = el.getBoundingClientRect(); return b.width && b.height ? { l: b.left, t: b.top, r: b.right, b: b.bottom } : null; };
+
+    function rectOfNode(id) {
+      let r = null;
+      for (const el of host.querySelectorAll('[data-ref="layerEnts"] .ent, [data-ref="layerOver"] .ent-over')) {
+        const b = el.dataset.id === id ? boxOf(el) : null;
+        if (b) r = r ? { l: Math.min(r.l, b.l), t: Math.min(r.t, b.t), r: Math.max(r.r, b.r), b: Math.max(r.b, b.b) } : b;
+      }
+      return r;
+    }
+
+    // What the bubble should not cover: the objects, every pill (names, tags, link labels) and the
+    // summary card. The object the bubble is about counts four times.
+    function obstacles(t, id) {
+      const out = [{ ...t, k: 4 }];
+      for (const el of host.querySelectorAll('[data-ref="layerEnts"] .ent, [data-ref="scene"] g.pill, .hud-card')) {
+        const b = boxOf(el);
+        // "other" marks another object: with no tail, the bubble must not sit nearer to one of
+        // those than to its own object, or it reads as being about that one.
+        if (b) out.push({ l: b.l - 6, t: b.t - 6, r: b.r + 6, b: b.b + 6, k: 1, other: el.classList.contains('ent') && el.dataset.id !== id });
+      }
+      return out;
+    }
+
+    function placePin() {
+      if (variant !== 'pin' || cur < 0) return;
+      const pin = $('narrPin'), box = $('stageBox').getBoundingClientRect(), area = $('sceneWrap').getBoundingClientRect();
+      const bw = pin.offsetWidth, bh = pin.offsetHeight, pad = 8;
+      if (!bw || !area.width) return;
+      const x0 = area.left + pad, y0 = area.top + pad, x1 = Math.max(x0, area.right - pad - bw), y1 = Math.max(y0, area.bottom - pad - bh);
+      const t = pinAt ? rectOfNode(pinAt) : null;
+      if (!pinShown) {
+        const at = t ? [t.l, t.t, t.r, t.b].map(Math.round).join() : 'none', waited = performance.now() - pinSince;
+        pinStill = at === pinLast ? pinStill + 1 : 0;
+        pinLast = at;
+        if (reduce || waited > 2600 || (pinStill >= 8 && waited > 250)) {
+          pinShown = true;
+          pinOff = null;   // placed afresh, from where everything has come to rest
+          pin.classList.add('in');
+        }
+      }
+      let x = clamp(area.left + (area.width - bw) / 2, x0, x1), y = y0;
+      if (t) {
+        const cx = (t.l + t.r) / 2, cy = (t.t + t.b) / 2;
+        // Placed once, when the bubble comes in, and again only if the bubble or the stage changes
+        // size. In between it keeps its place beside the object and moves with it.
+        const key = [bw, bh, Math.round(area.width), Math.round(area.height)].join();
+        if (!pinOff || pinSide !== key) {
+          const obs = obstacles(t, pinAt);
+          const gapTo = (o, px, py) => Math.hypot(Math.max(o.l - (px + bw), px - o.r, 0), Math.max(o.t - (py + bh), py - o.b, 0));
+          let best = null;
+          for (let px = x0; px <= x1; px += 16) for (let py = y0; py <= y1; py += 16) {
+            // Covered area, plus how far the bubble is from its object (it should sit 14px away).
+            let cost = 0;
+            for (const o of obs) cost += o.k * Math.max(0, Math.min(px + bw, o.r) - Math.max(px, o.l)) * Math.max(0, Math.min(py + bh, o.b) - Math.max(py, o.t));
+            const dx = Math.max(t.l - (px + bw), px - t.r, 0), dy = Math.max(t.t - (py + bh), py - t.b, 0);
+            const own = Math.hypot(dx, dy);
+            cost += Math.abs(own - 14) * 8;
+            for (const o of obs) if (o.other && gapTo(o, px, py) < own + 24) cost += 2500;
+            if (!best || cost < best.cost) best = { px, py, cost };
+          }
+          pinOff = [best.px - cx, best.py - cy];
+          pinSide = key;
+        }
+        x = clamp(cx + pinOff[0], x0, x1);
+        y = clamp(cy + pinOff[1], y0, y1);
+      }
+      pin.style.transform = 'translate(' + n1(x - box.left) + 'px, ' + n1(y - box.top) + 'px)';
+    }
+
+    function pinLoop() {
+      if (!alive) return;
+      placePin();
+      nextFrame(pinLoop);
+    }
+
+    function onTryClick(e, root) {
+      const b = e.target.closest('[data-try]');
+      if (!b) return;
+      if (b.dataset.try !== 'reset') { choose(Number(b.dataset.try)); return; }
+      resetTry();
+      const first = root.querySelector('.try-opt');
+      if (first) first.focus({ preventScroll: true });
+    }
+    const refreshNarration = () => { if (alive && cur >= 0) renderSay(cur); };
+
     /* ================= Navigation ================= */
 
     function go(i, opt = {}) {
@@ -672,6 +883,7 @@ Diorama.defineTemplate('story', { stage: 'iso' }, (kit, stage) => {
         choice = -1;
         S.pause(false);
         renderGuide(i, opt.instant ? 0 : dir);
+        renderSay(i);
         updateMetrics(i, !opt.instant);
         renderNav(i);
         renderGoals(i);
@@ -715,13 +927,24 @@ Diorama.defineTemplate('story', { stage: 'iso' }, (kit, stage) => {
 
     $('backBtn').addEventListener('click', back);
     $('nextBtn').addEventListener('click', forward);
-    $('guide').addEventListener('click', (e) => {
-      const b = e.target.closest('[data-try]');
+    $('guide').addEventListener('click', (e) => onTryClick(e, $('guide')));
+    // Experiment: the buttons under the stage, the short explanation and the switch.
+    $('nBack').addEventListener('click', back);
+    $('nNext').addEventListener('click', forward);
+    say.addEventListener('click', (e) => {
+      if (e.target.closest('[data-more]')) setMore(!more);
+      else onTryClick(e, say);
+    });
+    $('expSwitch').addEventListener('click', (e) => {
+      const b = e.target.closest('[data-explain]');
       if (!b) return;
-      if (b.dataset.try !== 'reset') { choose(Number(b.dataset.try)); return; }
-      resetTry();
-      const first = $('guide').querySelector('.try-opt');
-      if (first) first.focus({ preventScroll: true });
+      setVariant(b.dataset.explain, true);
+      // A choice made here outlasts an ?explain= in the address, which would otherwise win again
+      // in the next walkthrough.
+      try {
+        const u = new URL(location.href);
+        if (u.searchParams.has('explain')) { u.searchParams.delete('explain'); history.replaceState(history.state, '', u); }
+      } catch (err) { /* keep the address */ }
     });
     const onMotion = (e) => { reduce = e.matches; };
     motionQuery.addEventListener('change', onMotion);
@@ -733,6 +956,7 @@ Diorama.defineTemplate('story', { stage: 'iso' }, (kit, stage) => {
       life.end();
       uiAnims.length = 0;
       motionQuery.removeEventListener('change', onMotion);
+      if (onNarration === refreshNarration) onNarration = null;
       host.innerHTML = '';
     }
 
@@ -742,6 +966,16 @@ Diorama.defineTemplate('story', { stage: 'iso' }, (kit, stage) => {
     renderLegend();
     buildMetrics();
     buildStrip();
+    // Experiment: the layout of the chosen variant is in place before the stage measures its room.
+    setVariant(variant, false);
+    onNarration = refreshNarration;
+    if (!window.DioramaNarration && !narrationAsked) {
+      narrationAsked = true;
+      const file = document.createElement('script');
+      file.src = 'experiments/narration.js';
+      file.onload = () => { if (onNarration) onNarration(); };
+      document.head.appendChild(file);
+    }
     // The stage measures the room it has, so it comes to life once the regions around it are in place.
     S = stage.mount(host, M.picture, { titleOf: (k) => M.titleOf(k, LBL.try), onReplay: replay });
     const start = clamp(Math.floor(Number(opts.start) || 0), 0, STEPS.length - 1);
@@ -749,6 +983,7 @@ Diorama.defineTemplate('story', { stage: 'iso' }, (kit, stage) => {
     if (start === 0) go(0);
     else go(start, { instant: true });
     nextFrame(() => nextFrame(() => $('stepStrip').classList.remove('still')));
+    nextFrame(pinLoop);
 
     return {
       get position() { return cur; },
